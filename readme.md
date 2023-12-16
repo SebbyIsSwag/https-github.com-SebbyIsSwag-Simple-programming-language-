@@ -1,7 +1,7 @@
 # Your Project Name
 
 ## Introduction
-Welcome to [Your Project Name], a unique programming environment inspired by a fun game I played with my friends, where we pretended some of us were robots being controlled. This project translates that concept into a programming language with exciting functions, offering an interactive way to learn programming through games.
+Welcome to simple programming language, a unique programming environment inspired by a fun game I played with my friends, where we pretended some of us were robots being controlled. This project translates that concept into a programming language with exciting functions, offering an interactive way to learn programming through games.
 
 ## Features
 - **Sprite Control**: Manipulate sprites with functions like `FastForward();`.
@@ -12,7 +12,7 @@ Welcome to [Your Project Name], a unique programming environment inspired by a f
 ## Getting Started
 To get started with [Your Project Name], follow these steps:
 
-1. **Clone the Repository**: `git clone [repository URL]`.
+1. **Clone the Repository**: `git clone git@github.com:SebbyIsSwag/https-github.com-SebbyIsSwag-Simple-programming-language-.git`.
 2. **Navigate to the Project**: Open the `/public` folder.
 3. **Run the Project**: Open `index.html` in your browser to start the environment.
 
