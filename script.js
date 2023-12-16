@@ -13,7 +13,7 @@
            draw(context) {
                // Example drawing method for the sprite
                context.fillStyle = 'red'; // Set the sprite color
-            context.fillRect(this.x, this.y, this.width, this.height); // Draw the sprite as a rectangle
+               context.fillRect(this.x, this.y, this.width, this.height); // Draw the sprite as a rectangle
 
             moveToTarget(target) 
                 // Simple logic to move towards the target sprite
