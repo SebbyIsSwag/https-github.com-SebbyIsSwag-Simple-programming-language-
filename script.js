@@ -300,6 +300,8 @@ function parse(code) {
             ast.push({ type: 'backward', spriteName: line.split(' ')[1] });
         } else if (line.startsWith('playGameFunctionIt')) {
             ast.push({ type: 'playGameFunctionIt' });
+          else
+            console.log("Syntax incorrect") 
          }
      }
 
@@ -486,6 +488,61 @@ function findSpriteByName(name) {
 }
 
 }
+// Function to create a new list and store it in the environment
+function list() {
+    const newList = [];
+    env.addVariable(newList);
+    return newList;
+}
+
+// Function to retrieve an item from a list or a character from a string
+function itemOf(index, listOrString) {
+    return listOrString[index - 1]; // Adjusting for zero-based indexing
+}
+
+// Function to replace an item in a list or a character in a string
+function replaceItemOf(index, newValue, listOrString) {
+    if (Array.isArray(listOrString)) {
+        listOrString[index - 1] = newValue; // For lists
+    } else {
+        listOrString = listOrString.substr(0, index - 1) + newValue + listOrString.substr(index); // For strings
+    }
+}
+
+// Function to add an item to a list
+function addTo(item, list) {
+    list.push(item);
+}
+// Function to find the index of an item in a list or a character in a string
+function indexOfIn(item, listOrString) {
+    if (Array.isArray(listOrString)) {
+        return listOrString.indexOf(item) + 1; // Adjust for zero-based indexing
+    } else {
+        return listOrString.indexOf(item) + 1; // Adjust for zero-based indexing in strings
+    }
+}
+
+// Parser function to interpret list/variable-related commands
+function parseListAndVariableCommands(command) {
+    const parts = command.split(' ');
+    switch (parts[0]) {
+        case 'list':
+            return list();
+        case 'itemOf':
+            return itemOf(parseInt(parts[1]), env.getVariable(parts[2]));
+        case 'replaceItemOf':
+            replaceItemOf(parseInt(parts[1]), parts[2], env.getVariable(parts[3]));
+            break;
+        case 'addTo':
+            addTo(parts[1], env.getVariable(parts[2]));
+            break;
+        case 'indexOfIn':
+            return indexOfIn(parts[1], env.getVariable(parts[2]));
+        default:
+            console.log("Unknown command");
+    }
+}
+
 const env = {
     sprites: [],
     variables: {},
@@ -509,12 +566,16 @@ const env = {
         }
     },
 
-    setVariable(name, value) {
-        this.variables[name] = value;
+    addVariable(variable) {
+        this.variables[variable.name] = variable;
     },
 
     getVariable(name) {
         return this.variables[name];
+    },
+
+    setVariable(name, value) {
+        this.variables[name] = value;
     },
 
     resetEnvironment() {
