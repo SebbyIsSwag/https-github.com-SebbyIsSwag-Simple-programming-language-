@@ -11,10 +11,10 @@ Welcome to simple programming language, a unique programming environment inspire
 
 ## Getting Started
 To get started with Simple Programmming Language, follow these steps:
-
-1. **Clone the Repository**: `git clone https://github.com/SebbyIsSwag/https-github.com-SebbyIsSwag-Simple-programming-language-.git`.
-2. **Navigate to the Project**: Open the `/public` folder. (Note: do not use the other index.html file. That is for the playground.)
-3. **Run the Project**: Open `index.html` in your browser to start the environment.
+1. Go to the playground `sebbyisswag.github.io/https-github.com-SebbyIsSwag-Simple-programming-language-/` , If you like it, by all means, continue!
+2. **Clone the Repository**: `git clone https://github.com/SebbyIsSwag/https-github.com-SebbyIsSwag-Simple-programming-language-.git`.
+3. **Navigate to the Project**: Open the `/public` folder. (Note: do not use the other index.html file. That is for the playground.)
+4. **Run the Project**: Open `index.html` in your browser to start the environment.
 
 ## Documentation
 Dive into our comprehensive documentation to learn more about how to use Simple-programming language:
