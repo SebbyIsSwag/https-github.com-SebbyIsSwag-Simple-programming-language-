@@ -1,4 +1,4 @@
-# Your Project Name
+# Simple Programming Language
 
 ## Introduction
 Welcome to simple programming language, a unique programming environment inspired by a fun game I played with my friends, where we pretended some of us were robots being controlled. This project translates that concept into a programming language with exciting functions, offering an interactive way to learn programming through games.
@@ -10,7 +10,7 @@ Welcome to simple programming language, a unique programming environment inspire
 - **Web-Based IDE**: Everything runs in your browser, making it accessible and easy to start.
 
 ## Getting Started
-To get started with [Your Project Name], follow these steps:
+To get started with Simple Programmming Language, follow these steps:
 
 1. **Clone the Repository**: `git clone https://github.com/SebbyIsSwag/https-github.com-SebbyIsSwag-Simple-programming-language-.git`.
 2. **Navigate to the Project**: Open the `/public` folder.
