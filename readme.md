@@ -1,0 +1,1 @@
+Go to the github page! Loads of different functions like FastForward(); ! So I came up with the idea because once I played with my friends this game where I pretended some of them were robots and we were controlling them! It was pretty fun. Anyway I decided to make a programming language using those functions.
