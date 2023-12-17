@@ -10,26 +10,33 @@ class Sprite {
         this.velocity = { x: 0, y: 0 }; // Define velocity with initial values
     }
     
-   draw(context) {
-       // Example drawing method for the sprite
-       context.fillStyle = 'red'; // Set the sprite color
-    context.fillRect(this.x, this.y, this.width, this.height); // Draw the sprite as a rectangle
+    draw(context) {
+        context.fillStyle = this.color; // Use the sprite's color
+        context.fillRect(this.x, this.y, this.width, this.height);
+    }
 
-    moveToTarget(target) 
+
+    moveToTarget(target) {
         // Simple logic to move towards the target sprite
-        const deltaX = target.x - this.x;
-        const deltaY = target.y - this.y;
-        const angle = Math.atan2(deltaY, deltaX);
-        const speed = 1;
+        var deltaX = target.x - this.x;
+        var deltaY = target.y - this.y;
+        
+        // Calculate the angle towards the target
+        var angle = Math.atan2(deltaY, deltaX);
+    
+        // Set a speed for movement
+        var speed = 1; // You can adjust this value based on your game's needs
+    
+        // Update the sprite's velocity
         this.velocity.x = Math.cos(angle) * speed;
         this.velocity.y = Math.sin(angle) * speed;
     }
-
+    
     updatePosition() {
+        // Update the sprite's position based on its velocity
         this.x += this.velocity.x;
         this.y += this.velocity.y;
     }
-}
 tag(target) 
 // Check if this sprite is close enough to tag the target
 const distance = Math.sqrt(Math.pow(this.x - target.x, 2) + Math.pow(this.y - target.y, 2));
@@ -37,31 +44,93 @@ if (distance < 10) { // Assuming a tagging distance of 10 units
     this.isIt = false;
     target.isIt = true;
 }
+class Game {
+    constructor() {
+        this.env = new Environment();
+        this.context = this.setupCanvas();
+        this.userCodeCommands = []; // Placeholder for user commands
+    }
 
-function updateGameState() {
-// Iterate through each command in the user-written code
-for (let command of userCodeCommands) {
-switch (command.type) {
-    case 'moveSprite':
-        moveSprite(command.sprite, command.direction, command.distance);
-        break;
-    case 'changeSpriteColor':
-        changeSpriteColor(command.sprite, command.color);
-        break;
-    case 'ifCondition':
-        if (evaluateCondition(command.condition)) {
-            executeCommands(command.commands);
+    setupCanvas() {
+        let canvas = document.getElementById('gameCanvas');
+        if (!canvas) {
+            canvas = document.createElement('canvas');
+            canvas.id = 'gameCanvas';
+            canvas.width = 800; // Set canvas width
+            canvas.height = 600; // Set canvas height
+            document.body.appendChild(canvas);
         }
-        break;
-    case 'repeatLoop':
-        for (let i = 0; i < command.count; i++) {
-            executeCommands(command.commands);
+        return canvas.getContext('2d');
+    }
+
+    updateGameState() {
+        for (let command of this.userCodeCommands) {
+            switch (command.type) {
+                case 'moveSprite':
+                    this.moveSprite(command.sprite, command.direction, command.distance);
+                    break;
+                case 'changeSpriteColor':
+                    this.changeSpriteColor(command.sprite, command.color);
+                    break;
+                case 'ifCondition':
+                    if (evaluateCondition(command.condition)) {
+                        executeCommands(command.commands);
+                   }
+                case 'repeatLoop':
+                    for (let i = 0; i < command.count; i++) {
+                        executeCommands(command.commands);
+                    }
+                    break;
+                case 'rotateSprite':
+                    this.rotateSprite(command.sprite, command.angle);
+                    break;
+                case 'scaleSprite':
+                    this.scaleSprite(command.sprite, command.scaleFactor);
+                    break;
+            }
         }
-        break;
-    // Additional command types...
+    }
+
+    moveSprite(spriteName, direction, distance) {
+        const sprite = this.env.getSpriteByName(spriteName);
+        if (!sprite) return;
+
+        const radians = direction * (Math.PI / 180);
+        sprite.x += Math.cos(radians) * distance;
+        sprite.y += Math.sin(radians) * distance;
+    }
+
+    changeSpriteColor(spriteName, color) {
+        const sprite = this.env.getSpriteByName(spriteName);
+        if (!sprite) return;
+
+        sprite.color = color;
+    }
+
+    scaleSprite(spriteName, scaleFactor) {
+        const sprite = this.env.getSpriteByName(spriteName);
+        if (!sprite) return;
+
+        sprite.width *= scaleFactor;
+        sprite.height *= scaleFactor;
+    }
 }
-}
-}
+
+
+    startGameLoop() ;{
+        const render = () => {
+            this.context.clearRect(0, 0, canvas.width, canvas.height);
+            this.env.draw(this.context);
+            this.updateGameState();
+            requestAnimationFrame(render);
+        };
+        render();
+    }
+
+// Usage
+const game = new Game();
+game.startGameLoop();
+
 function defineFunction(name, func) {
 window[name] = func;
 }
@@ -355,10 +424,13 @@ function parse(code) {
             let { ifNode, nextIndex } = parseIfStatement(line, lines, i);
             ast.push(ifNode);
             i = nextIndex - 1;
+        } else if (line.startsWith('touching')) {
+                const targetSpriteName = line.substring(line.indexOf('(') + 1, line.indexOf(')')).trim();
+                ast.push({ type: 'touching', targetSprite: targetSpriteName });           
         } else if (line.startsWith('during')) {
             let { duringNode, nextIndex } = parseDuringBlock(line, lines, i);
             ast.push(duringNode);
-            i = nextIndex;
+            i = nextIndex;         
         } else if (line.match(/^(<|>|<=|>=|==|!=)/)) {
             ast.push(parseComparison(line));
         } else if (line.match(/^(and|or|not)/)) {
